@@ -20,7 +20,6 @@ class DatabaseHelper {
   initDb() async {
     io.Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, dbName);
-    print('path='+path);
     var db = await openDatabase(path, version: 1, onCreate: _onCreate);
     return db;
   }
@@ -33,24 +32,17 @@ class DatabaseHelper {
   Future<Tasks> insert(Tasks task) async {
     var dbClient=await db;
     task.id=await dbClient.insert('TASK', task.toMap());
-    print("Record Inserted");
   }
 
   Future<List<Tasks>> getTasks() async {
-    print("Get tasks");
     var dbClient = await db;
     List<Map> maps= await dbClient.query('TASK', columns: ['ID','DESCRIPTION', 'TITLE', 'LOCATION', 'DONE']);
-    print(maps);
     List<Tasks> tasks=[];
     if(maps.length >0) {
-      print("inside");
       for (int i=0;i<maps.length;i++) {
-        print(maps[i]);
         tasks.add(Tasks.fromMap(maps[i]));
       }
     }
-    //print("Task ka print-");
-    //print([0].id);
     return tasks;
   }
 

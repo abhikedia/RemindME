@@ -12,7 +12,7 @@ class _AddTaskState extends State<AddTask> {
   TextEditingController controller = TextEditingController();
   final formKey = new GlobalKey<FormState>();
   String task;
-  int count = 609;
+  int count = 0;
   var dbHelper;
   bool isUpdating;
 
@@ -90,7 +90,7 @@ class _AddTaskState extends State<AddTask> {
         });
       } else {
         Tasks e = Tasks(count, 'hey', task, 'gonda', 0);
-        print("pressed");
+        //print("pressed");
         await dbHelper.insert(e);
       }
       Navigator.push(

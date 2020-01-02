@@ -21,22 +21,17 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     dbHelper = DatabaseHelper();
-    print("Initialized Homepage");
     isUpdating = false;
     refreshList();
   }
 
   refreshList() {
-    print("refresh");
     setState(() {
       tasks = dbHelper.getTasks();
     });
   }
 
   SingleChildScrollView dataTable(List<Tasks> employees) {
-    //refreshList();
-    print("check here");
-    print(employees[1].title);
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
       child: DataTable(
@@ -71,13 +66,6 @@ class _HomePageState extends State<HomePage> {
                     controller.text = employee.done.toString();
                   },
                 ),
-//                DataCell(IconButton(
-//                  icon: Icon(Icons.delete),
-//                  onPressed: () {
-//                    dbHelper.delete(employee.id);
-//                    refreshList();
-//                  },
-//                )),
               ]),
             )
             .toList(),
