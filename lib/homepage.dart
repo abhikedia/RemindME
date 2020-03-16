@@ -37,15 +37,31 @@ class _HomePageState extends State<HomePage> {
       child: DataTable(
         columns: [
           DataColumn(
+            label: Text('Serial'),
+          ),
+          DataColumn(
             label: Text('Task'),
           ),
           DataColumn(
-            label: Text('Done'),
+            label: Text('Description'),
+          ),
+          DataColumn(
+            label: Text('Done?'),
           )
         ],
         rows: employees
             .map(
               (employee) => DataRow(cells: [
+                DataCell(
+                  new Text(employee.id.toString()),
+//                  onTap: () {
+//                    setState(() {
+//                      isUpdating = true;
+//                      curUserId = employee.id;
+//                    });
+//                    controller.text = employee.title;
+
+                ),
                 DataCell(
                   new Text(employee.title),
                   onTap: () {
@@ -64,6 +80,16 @@ class _HomePageState extends State<HomePage> {
                       curUserId = employee.id;
                     });
                     controller.text = employee.done.toString();
+                  },
+                ),
+                DataCell(
+                  new Text(employee.title),
+                  onTap: () {
+                    setState(() {
+                      isUpdating = true;
+                      curUserId = employee.id;
+                    });
+                    controller.text = employee.title;
                   },
                 ),
               ]),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import './utils/database_helper.dart';
 import './model/task.dart';
 import './utils/maps.dart';
+import './main.dart';
 
 class AddTask extends StatefulWidget {
   @override
@@ -13,33 +14,27 @@ class _AddTaskState extends State<AddTask> {
   TextEditingController controller = TextEditingController();
   TextEditingController controller1 = TextEditingController();
   final formKey = new GlobalKey<FormState>();
-  String task;
-  String task_description;
-  int count = 0;
   var dbHelper;
-  bool isUpdating;
+  String task;
+
+  // ignore: non_constant_identifier_names
+  String task_description;
+  double lat = 0.0;
+  double long = 0.0;
+  int location = 0;
 
   @override
   void initState() {
     super.initState();
     dbHelper = DatabaseHelper();
-    isUpdating = false;
   }
+
   bool toggleValue = false;
 
   @override
   Widget build(BuildContext context) {
+    var _onPressed;
 
-  var _onPressed;
-  if(toggleValue)
-  {
-    _onPressed =() {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => MyApp()),
-      );
-    };
-  }
     return Scaffold(
         appBar: new AppBar(
           title: Text("RemindME"),
@@ -122,13 +117,11 @@ class _AddTaskState extends State<AddTask> {
                     children: <Widget>[
                       FlatButton(
                         onPressed: validate,
-                        child: Text(isUpdating ? 'UPDATE' : 'ADD'),
+                        child: Text("Add Task"),
                       ),
                       FlatButton(
                         onPressed: () {
-                          setState(() {
-                            isUpdating = false;
-                          });
+                          setState(() {});
                           clearName();
                         },
                         child: Text('CANCEL'),
@@ -142,7 +135,6 @@ class _AddTaskState extends State<AddTask> {
         ));
   }
 
-
 //  _onPressed() {
 //
 //  }
@@ -153,6 +145,15 @@ class _AddTaskState extends State<AddTask> {
   toggleButton() {
     setState(() {
       toggleValue = !toggleValue;
+      if (toggleValue == false) {
+        lat = 0.0;
+        long = 0.0;
+        location = 0;
+      } else {
+        lat = 1.1;
+        long = 1.1;
+        location = 1;
+      }
     });
   }
 
@@ -160,23 +161,13 @@ class _AddTaskState extends State<AddTask> {
     count++;
     if (formKey.currentState.validate()) {
       formKey.currentState.save();
-      if (isUpdating) {
-        count++;
-        print(count);
-        Tasks e = Tasks(count, task_description, task, 'gonda', 0);
-        dbHelper.update(e);
-        setState(() {
-          isUpdating = false;
-        });
-      } else {
-        Tasks e = Tasks(count, task_description, task, 'gonda', 0);
-        //print("pressed");
-        await dbHelper.insert(e);
-      }
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => HomePage()),
-      );
+      Tasks e = Tasks(count, task_description, task, lat, long, location, 0);
+      print("Inserting Record");
+      await dbHelper.insert(e);
     }
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => HomePage()),
+    );
   }
 }

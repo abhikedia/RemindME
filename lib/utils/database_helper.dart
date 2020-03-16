@@ -26,7 +26,7 @@ class DatabaseHelper {
 
   _onCreate(Database db, int version) async {
     await db.execute(
-        "CREATE TABLE TASK (ID INT PRIMARY KEY, DESCRIPTION TEXT NOT NULL, TITLE TEXT NOT NULL, LOCATION TEXT NOT NULL, DONE INT)");
+        "CREATE TABLE TASK (ID INT PRIMARY KEY, DESCRIPTION TEXT NOT NULL, TITLE TEXT NOT NULL, LAT DOUBLE NOT NULL, LONG DOUBLE NOT NULL, LOCATION INT, DONE INT)");
   }
 
   Future<Tasks> insert(Tasks task) async {
@@ -36,7 +36,7 @@ class DatabaseHelper {
 
   Future<List<Tasks>> getTasks() async {
     var dbClient = await db;
-    List<Map> maps= await dbClient.query('TASK', columns: ['ID','DESCRIPTION', 'TITLE', 'LOCATION', 'DONE']);
+    List<Map> maps= await dbClient.query('TASK', columns: ['ID','DESCRIPTION', 'TITLE', 'LOCATION']);
     List<Tasks> tasks=[];
     if(maps.length >0) {
       for (int i=0;i<maps.length;i++) {

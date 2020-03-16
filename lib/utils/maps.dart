@@ -126,10 +126,11 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
           title: Text('Maps Sample App'),
-          backgroundColor: Colors.green[700],
+          backgroundColor: Colors.greenAccent,
         ),
         body: GoogleMap(
             onMapCreated: _onMapCreated,
@@ -143,6 +144,7 @@ class _MyAppState extends State<MyApp> {
             markers: Set<Marker>.of(markers.values)),
         floatingActionButton: new FloatingActionButton(
           child: Icon(Icons.my_location),
+          backgroundColor: Colors.greenAccent,
           onPressed: () {
             mapController.animateCamera(
               CameraUpdate.newCameraPosition(
