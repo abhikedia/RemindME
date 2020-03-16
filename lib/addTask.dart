@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import './utils/database_helper.dart';
 import './model/task.dart';
 import './utils/maps.dart';
-import './main.dart';
+import './utils/global.dart';
 
 class AddTask extends StatefulWidget {
   @override
@@ -34,7 +34,15 @@ class _AddTaskState extends State<AddTask> {
   @override
   Widget build(BuildContext context) {
     var _onPressed;
-
+    if(toggleValue)
+    {
+      _onPressed =() {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Maps()),
+        );
+      };
+    }
     return Scaffold(
         appBar: new AppBar(
           title: Text("RemindME"),
@@ -165,9 +173,6 @@ class _AddTaskState extends State<AddTask> {
       print("Inserting Record");
       await dbHelper.insert(e);
     }
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => HomePage()),
-    );
+    Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
   }
 }
